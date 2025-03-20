@@ -31,7 +31,7 @@ function RouteComponent() {
           因幡深雪
         </div>
       </header>
-      <main className="h-full">
+      <main className="h-full pt-6">
         <Outlet />
       </main>
     </>
