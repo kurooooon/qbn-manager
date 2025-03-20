@@ -10,113 +10,113 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as PrivateFacilitatorsImport } from "./routes/_private/facilitators";
-import { Route as PrivateRouteImport } from "./routes/_private/route";
-import { Route as IndexImport } from "./routes/index";
+import { Route as rootRoute } from './routes/__root'
+import { Route as PrivateRouteImport } from './routes/_private/route'
+import { Route as IndexImport } from './routes/index'
+import { Route as PrivateFacilitatorsImport } from './routes/_private/facilitators'
 
 // Create/Update Routes
 
 const PrivateRouteRoute = PrivateRouteImport.update({
-  id: "/_private",
+  id: '/_private',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const PrivateFacilitatorsRoute = PrivateFacilitatorsImport.update({
-  id: "/facilitators",
-  path: "/facilitators",
+  id: '/facilitators',
+  path: '/facilitators',
   getParentRoute: () => PrivateRouteRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/_private": {
-      id: "/_private";
-      path: "";
-      fullPath: "";
-      preLoaderRoute: typeof PrivateRouteImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/_private/facilitators": {
-      id: "/_private/facilitators";
-      path: "/facilitators";
-      fullPath: "/facilitators";
-      preLoaderRoute: typeof PrivateFacilitatorsImport;
-      parentRoute: typeof PrivateRouteImport;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_private': {
+      id: '/_private'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PrivateRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/_private/facilitators': {
+      id: '/_private/facilitators'
+      path: '/facilitators'
+      fullPath: '/facilitators'
+      preLoaderRoute: typeof PrivateFacilitatorsImport
+      parentRoute: typeof PrivateRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
 interface PrivateRouteRouteChildren {
-  PrivateFacilitatorsRoute: typeof PrivateFacilitatorsRoute;
+  PrivateFacilitatorsRoute: typeof PrivateFacilitatorsRoute
 }
 
 const PrivateRouteRouteChildren: PrivateRouteRouteChildren = {
   PrivateFacilitatorsRoute: PrivateFacilitatorsRoute,
-};
+}
 
 const PrivateRouteRouteWithChildren = PrivateRouteRoute._addFileChildren(
-  PrivateRouteRouteChildren
-);
+  PrivateRouteRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "": typeof PrivateRouteRouteWithChildren;
-  "/facilitators": typeof PrivateFacilitatorsRoute;
+  '/': typeof IndexRoute
+  '': typeof PrivateRouteRouteWithChildren
+  '/facilitators': typeof PrivateFacilitatorsRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "": typeof PrivateRouteRouteWithChildren;
-  "/facilitators": typeof PrivateFacilitatorsRoute;
+  '/': typeof IndexRoute
+  '': typeof PrivateRouteRouteWithChildren
+  '/facilitators': typeof PrivateFacilitatorsRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/": typeof IndexRoute;
-  "/_private": typeof PrivateRouteRouteWithChildren;
-  "/_private/facilitators": typeof PrivateFacilitatorsRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/_private': typeof PrivateRouteRouteWithChildren
+  '/_private/facilitators': typeof PrivateFacilitatorsRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "" | "/facilitators";
-  fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "" | "/facilitators";
-  id: "__root__" | "/" | "/_private" | "/_private/facilitators";
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '' | '/facilitators'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '' | '/facilitators'
+  id: '__root__' | '/' | '/_private' | '/_private/facilitators'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  PrivateRouteRoute: typeof PrivateRouteRouteWithChildren;
+  IndexRoute: typeof IndexRoute
+  PrivateRouteRoute: typeof PrivateRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrivateRouteRoute: PrivateRouteRouteWithChildren,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {

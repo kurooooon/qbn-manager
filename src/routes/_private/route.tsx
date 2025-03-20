@@ -21,6 +21,7 @@ function RouteComponent() {
             src={logo}
             srcSet={`${logo} 1x, ${logo2x} 2x, ${logo3x} 3x`}
             alt="Qubena manager"
+            className="aspect-[276/32]"
           />
           <h1 className="border-1 py-2 px-4 rounded-xs">アカウント管理</h1>
         </div>
@@ -30,7 +31,9 @@ function RouteComponent() {
           因幡深雪
         </div>
       </header>
-      <Outlet />
+      <main className="h-full">
+        <Outlet />
+      </main>
     </>
   );
 }
