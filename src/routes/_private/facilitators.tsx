@@ -25,10 +25,10 @@ export const Route = createFileRoute("/_private/facilitators")({
 
 function RouteComponent() {
   const pageCount = 5;
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
 
   return (
-    <section className="max-w-[800px] mx-auto">
+    <section className="max-w-[800px] mx-auto px-6">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-4">
           <Icon name="teacher" className="w-8" />
