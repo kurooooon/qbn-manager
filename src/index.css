@@ -6,6 +6,8 @@
   --token-primitive-neutral-black: #212423;
   --token-primitive-green-500: #4f6c62;
   --token-primitive-green-800: #24473b;
+  --token-primitive-gray-400: #e9eceb;
+  --token-primitive-gray-300: #f8f9f9;
 
   --radius: 0.625rem;
   --background: var(--token-primitive-neutral-white);
@@ -16,8 +18,8 @@
   --popover-foreground: oklch(0.145 0 0);
   --primary: var(--token-primitive-green-800);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary: var(--token-primitive-gray-400);
+  --secondary-foreground: var(--token-primitive-neutral-black);
   --muted: oklch(0.97 0 0);
   --muted-foreground: var(--token-primitive-green-500);
   --accent: oklch(0.97 0 0);
@@ -43,6 +45,7 @@
 }
 
 @theme inline {
+  --radius-xs: calc(var(--radius) - 6px);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
