@@ -11,6 +11,7 @@
 
   --radius: 0.625rem;
   --background: var(--token-primitive-neutral-white);
+  --background-primary: var(--token-primitive-green-800);
   --foreground: var(--token-primitive-neutral-black);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -20,6 +21,7 @@
   --primary-foreground: oklch(0.985 0 0);
   --secondary: var(--token-primitive-gray-400);
   --secondary-foreground: var(--token-primitive-neutral-black);
+  --inverse: var(--token-primitive-neutral-white);
   --muted: oklch(0.97 0 0);
   --muted-foreground: var(--token-primitive-green-500);
   --accent: oklch(0.97 0 0);
@@ -51,6 +53,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
+  --color-background-primary: var(--background-primary);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -60,6 +63,7 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-inverse: var(--inverse);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
