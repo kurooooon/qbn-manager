@@ -24,14 +24,13 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
     },
-    overrides: [
-      {
-        files: ["*.stories.tsx"],
-        rules: {
-          // storybookではreact-hooks/rules-of-hooksをoffにする
-          "react-hooks/rules-of-hooks": "off",
-        },
-      },
-    ],
+  },
+  // *.stories.tsx ファイル用の個別の設定
+  {
+    files: ["**/*.stories.tsx"],
+    rules: {
+      // storybookではreact-hooks/rules-of-hooksをoffにする
+      "react-hooks/rules-of-hooks": "off",
+    },
   }
 );
