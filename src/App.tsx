@@ -2,6 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import { Input } from "./components/ui/input";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,6 +29,11 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Input type="text" />
+      <div className="flex flex-col items-center justify-center">
+        <p>Hello</p>
+        <p>World</p>
+      </div>
     </>
   );
 }
