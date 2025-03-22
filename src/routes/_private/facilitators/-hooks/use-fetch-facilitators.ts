@@ -1,16 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
 import { type SortingState } from "@tanstack/react-table";
-
-export const Route = createFileRoute(
-  "/_private/facilitators/_hooks/use-fetch-facilitators"
-)({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
-  return null;
-}
 
 // ファシリテーターのデータ型
 export type Facilitator = {

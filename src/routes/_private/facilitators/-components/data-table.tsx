@@ -14,21 +14,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { createFileRoute } from "@tanstack/react-router";
 import { type ColumnDef, flexRender } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { useDataTable } from "../_hooks/use-data-table";
-import { type Facilitator } from "../_hooks/use-fetch-facilitators";
-
-export const Route = createFileRoute(
-  "/_private/facilitators/_components/data-table"
-)({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
-  return null;
-}
+import { useDataTable } from "../-hooks/use-data-table";
+import { type Facilitator } from "../-hooks/use-fetch-facilitators";
 
 interface DataTableProps {
   pageSize?: number;

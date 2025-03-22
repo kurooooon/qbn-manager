@@ -1,7 +1,7 @@
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { createFileRoute } from "@tanstack/react-router";
-import { DataTable } from "./_components/data-table";
+import { DataTable } from "./-components/data-table";
 
 export const Route = createFileRoute("/_private/facilitators/")({
   component: RouteComponent,

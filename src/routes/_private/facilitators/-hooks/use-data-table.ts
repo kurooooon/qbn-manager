@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import {
   type ColumnDef,
   getCoreRowModel,
@@ -11,16 +10,6 @@ import {
   type Facilitator,
   useFetchFacilitators,
 } from "./use-fetch-facilitators";
-
-export const Route = createFileRoute(
-  "/_private/facilitators/_hooks/use-data-table"
-)({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
-  return null;
-}
 
 interface UseDataTableProps {
   columns: ColumnDef<Facilitator>[];

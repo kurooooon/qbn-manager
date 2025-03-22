@@ -14,9 +14,6 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as PrivateRouteImport } from './routes/_private/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as PrivateFacilitatorsIndexImport } from './routes/_private/facilitators/index'
-import { Route as PrivateFacilitatorsHooksUseFetchFacilitatorsImport } from './routes/_private/facilitators/_hooks/use-fetch-facilitators'
-import { Route as PrivateFacilitatorsHooksUseDataTableImport } from './routes/_private/facilitators/_hooks/use-data-table'
-import { Route as PrivateFacilitatorsComponentsDataTableImport } from './routes/_private/facilitators/_components/data-table'
 
 // Create/Update Routes
 
@@ -36,27 +33,6 @@ const PrivateFacilitatorsIndexRoute = PrivateFacilitatorsIndexImport.update({
   path: '/facilitators/',
   getParentRoute: () => PrivateRouteRoute,
 } as any)
-
-const PrivateFacilitatorsHooksUseFetchFacilitatorsRoute =
-  PrivateFacilitatorsHooksUseFetchFacilitatorsImport.update({
-    id: '/facilitators/_hooks/use-fetch-facilitators',
-    path: '/facilitators/use-fetch-facilitators',
-    getParentRoute: () => PrivateRouteRoute,
-  } as any)
-
-const PrivateFacilitatorsHooksUseDataTableRoute =
-  PrivateFacilitatorsHooksUseDataTableImport.update({
-    id: '/facilitators/_hooks/use-data-table',
-    path: '/facilitators/use-data-table',
-    getParentRoute: () => PrivateRouteRoute,
-  } as any)
-
-const PrivateFacilitatorsComponentsDataTableRoute =
-  PrivateFacilitatorsComponentsDataTableImport.update({
-    id: '/facilitators/_components/data-table',
-    path: '/facilitators/data-table',
-    getParentRoute: () => PrivateRouteRoute,
-  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -83,27 +59,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateFacilitatorsIndexImport
       parentRoute: typeof PrivateRouteImport
     }
-    '/_private/facilitators/_components/data-table': {
-      id: '/_private/facilitators/_components/data-table'
-      path: '/facilitators/data-table'
-      fullPath: '/facilitators/data-table'
-      preLoaderRoute: typeof PrivateFacilitatorsComponentsDataTableImport
-      parentRoute: typeof PrivateRouteImport
-    }
-    '/_private/facilitators/_hooks/use-data-table': {
-      id: '/_private/facilitators/_hooks/use-data-table'
-      path: '/facilitators/use-data-table'
-      fullPath: '/facilitators/use-data-table'
-      preLoaderRoute: typeof PrivateFacilitatorsHooksUseDataTableImport
-      parentRoute: typeof PrivateRouteImport
-    }
-    '/_private/facilitators/_hooks/use-fetch-facilitators': {
-      id: '/_private/facilitators/_hooks/use-fetch-facilitators'
-      path: '/facilitators/use-fetch-facilitators'
-      fullPath: '/facilitators/use-fetch-facilitators'
-      preLoaderRoute: typeof PrivateFacilitatorsHooksUseFetchFacilitatorsImport
-      parentRoute: typeof PrivateRouteImport
-    }
   }
 }
 
@@ -111,19 +66,10 @@ declare module '@tanstack/react-router' {
 
 interface PrivateRouteRouteChildren {
   PrivateFacilitatorsIndexRoute: typeof PrivateFacilitatorsIndexRoute
-  PrivateFacilitatorsComponentsDataTableRoute: typeof PrivateFacilitatorsComponentsDataTableRoute
-  PrivateFacilitatorsHooksUseDataTableRoute: typeof PrivateFacilitatorsHooksUseDataTableRoute
-  PrivateFacilitatorsHooksUseFetchFacilitatorsRoute: typeof PrivateFacilitatorsHooksUseFetchFacilitatorsRoute
 }
 
 const PrivateRouteRouteChildren: PrivateRouteRouteChildren = {
   PrivateFacilitatorsIndexRoute: PrivateFacilitatorsIndexRoute,
-  PrivateFacilitatorsComponentsDataTableRoute:
-    PrivateFacilitatorsComponentsDataTableRoute,
-  PrivateFacilitatorsHooksUseDataTableRoute:
-    PrivateFacilitatorsHooksUseDataTableRoute,
-  PrivateFacilitatorsHooksUseFetchFacilitatorsRoute:
-    PrivateFacilitatorsHooksUseFetchFacilitatorsRoute,
 }
 
 const PrivateRouteRouteWithChildren = PrivateRouteRoute._addFileChildren(
@@ -134,18 +80,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof PrivateRouteRouteWithChildren
   '/facilitators': typeof PrivateFacilitatorsIndexRoute
-  '/facilitators/data-table': typeof PrivateFacilitatorsComponentsDataTableRoute
-  '/facilitators/use-data-table': typeof PrivateFacilitatorsHooksUseDataTableRoute
-  '/facilitators/use-fetch-facilitators': typeof PrivateFacilitatorsHooksUseFetchFacilitatorsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof PrivateRouteRouteWithChildren
   '/facilitators': typeof PrivateFacilitatorsIndexRoute
-  '/facilitators/data-table': typeof PrivateFacilitatorsComponentsDataTableRoute
-  '/facilitators/use-data-table': typeof PrivateFacilitatorsHooksUseDataTableRoute
-  '/facilitators/use-fetch-facilitators': typeof PrivateFacilitatorsHooksUseFetchFacilitatorsRoute
 }
 
 export interface FileRoutesById {
@@ -153,36 +93,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_private': typeof PrivateRouteRouteWithChildren
   '/_private/facilitators/': typeof PrivateFacilitatorsIndexRoute
-  '/_private/facilitators/_components/data-table': typeof PrivateFacilitatorsComponentsDataTableRoute
-  '/_private/facilitators/_hooks/use-data-table': typeof PrivateFacilitatorsHooksUseDataTableRoute
-  '/_private/facilitators/_hooks/use-fetch-facilitators': typeof PrivateFacilitatorsHooksUseFetchFacilitatorsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | ''
-    | '/facilitators'
-    | '/facilitators/data-table'
-    | '/facilitators/use-data-table'
-    | '/facilitators/use-fetch-facilitators'
+  fullPaths: '/' | '' | '/facilitators'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | ''
-    | '/facilitators'
-    | '/facilitators/data-table'
-    | '/facilitators/use-data-table'
-    | '/facilitators/use-fetch-facilitators'
-  id:
-    | '__root__'
-    | '/'
-    | '/_private'
-    | '/_private/facilitators/'
-    | '/_private/facilitators/_components/data-table'
-    | '/_private/facilitators/_hooks/use-data-table'
-    | '/_private/facilitators/_hooks/use-fetch-facilitators'
+  to: '/' | '' | '/facilitators'
+  id: '__root__' | '/' | '/_private' | '/_private/facilitators/'
   fileRoutesById: FileRoutesById
 }
 
@@ -216,26 +134,11 @@ export const routeTree = rootRoute
     "/_private": {
       "filePath": "_private/route.tsx",
       "children": [
-        "/_private/facilitators/",
-        "/_private/facilitators/_components/data-table",
-        "/_private/facilitators/_hooks/use-data-table",
-        "/_private/facilitators/_hooks/use-fetch-facilitators"
+        "/_private/facilitators/"
       ]
     },
     "/_private/facilitators/": {
       "filePath": "_private/facilitators/index.tsx",
-      "parent": "/_private"
-    },
-    "/_private/facilitators/_components/data-table": {
-      "filePath": "_private/facilitators/_components/data-table.tsx",
-      "parent": "/_private"
-    },
-    "/_private/facilitators/_hooks/use-data-table": {
-      "filePath": "_private/facilitators/_hooks/use-data-table.ts",
-      "parent": "/_private"
-    },
-    "/_private/facilitators/_hooks/use-fetch-facilitators": {
-      "filePath": "_private/facilitators/_hooks/use-fetch-facilitators.ts",
       "parent": "/_private"
     }
   }
