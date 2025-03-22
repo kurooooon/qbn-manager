@@ -29,14 +29,20 @@ function RouteComponent() {
         <SearchInput onSearch={onSearchParamsChange} />
       </div>
 
-      <div className="mt-6">
-        <DataTable
-          data={facilitators}
-          isLoading={isLoading}
-          sorting={fetchParams.sorting}
-          onSortingChange={onSortingChange}
-        />
-      </div>
+      {isLoading || facilitators.length > 0 ? (
+        <div className="mt-6">
+          <DataTable
+            data={facilitators}
+            isLoading={isLoading}
+            sorting={fetchParams.sorting}
+            onSortingChange={onSortingChange}
+          />
+        </div>
+      ) : (
+        <p className="text-muted-foreground mt-10">
+          該当するデータはありません
+        </p>
+      )}
     </section>
   );
 }

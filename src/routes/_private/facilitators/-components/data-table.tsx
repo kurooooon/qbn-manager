@@ -126,48 +126,37 @@ export function DataTable({
             ))}
           </TableHeader>
           <TableBody className="min-h-[400px]">
-            {isLoading ? (
-              Array.from({ length: pagination.pageSize }).map((_, index) => (
-                <TableRow
-                  key={`skeleton-${index}`}
-                  className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-                >
-                  {columns.map((_, cellIndex) => (
-                    <TableCell
-                      key={`skeleton-cell-${cellIndex}`}
-                      className="py-3"
-                    >
-                      <div className="h-5 bg-gray-200 rounded animate-pulse"></div>
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : table.getRowModel().rows.length > 0 ? (
-              table.getRowModel().rows.map((row, index) => (
-                <TableRow
-                  key={row.id}
-                  className={`hover:bg-gray-100 ${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="py-3">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-[400px] text-center"
-                >
-                  該当するデータはありません
-                </TableCell>
-              </TableRow>
-            )}
+            {isLoading
+              ? Array.from({ length: pagination.pageSize }).map((_, index) => (
+                  <TableRow
+                    key={`skeleton-${index}`}
+                    className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+                  >
+                    {columns.map((_, cellIndex) => (
+                      <TableCell
+                        key={`skeleton-cell-${cellIndex}`}
+                        className="py-3"
+                      >
+                        <div className="h-5 bg-gray-200 rounded animate-pulse"></div>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              : table.getRowModel().rows.map((row, index) => (
+                  <TableRow
+                    key={row.id}
+                    className={`hover:bg-gray-100 ${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="py-3">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </div>
