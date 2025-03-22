@@ -1,5 +1,5 @@
 import { Icon } from "@/components/ui/icon";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/search-input";
 import { createFileRoute } from "@tanstack/react-router";
 import { DataTable } from "./-components/data-table";
 
@@ -15,7 +15,7 @@ function RouteComponent() {
           <Icon name="teacher" className="w-8" />
           <span className="text-2xl font-bold">先生</span>
         </h2>
-        <Input className="w-84" placeholder="名前、ログインIDで検索" />
+        <SearchInput placeholder="名前、ログインIDで検索" onChange={() => {}} />
       </div>
 
       <div className="mt-6">
