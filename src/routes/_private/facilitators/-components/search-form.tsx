@@ -42,7 +42,7 @@ export const SearchInput = ({ onSearch }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form className="w-[336px]" onSubmit={handleSubmit(onSubmit)} noValidate>
       <SearchInputComponent
         placeholder="名前、ログインIDで検索"
         {...form.register("searchText")}
