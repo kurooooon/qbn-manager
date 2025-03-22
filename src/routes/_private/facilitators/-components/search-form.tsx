@@ -1,4 +1,4 @@
-import { SearchInput as SearchInputComponent } from "@/components/ui/search-input";
+import { SearchInput } from "@/components/ui/search-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -14,7 +14,7 @@ type Props = {
   onSearch: (value: string) => void;
 };
 
-export const SearchInput = ({ onSearch }: Props) => {
+export const SearchForm = ({ onSearch }: Props) => {
   const form = useForm<SearchFormData>({
     resolver: zodResolver(searchSchema),
     defaultValues: {
@@ -43,7 +43,7 @@ export const SearchInput = ({ onSearch }: Props) => {
 
   return (
     <form className="w-[336px]" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <SearchInputComponent
+      <SearchInput
         placeholder="名前、ログインIDで検索"
         {...form.register("searchText")}
       />

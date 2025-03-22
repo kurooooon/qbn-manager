@@ -3,7 +3,7 @@ import { Dialog } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
 import { createFileRoute } from "@tanstack/react-router";
 import { DataTable } from "./-components/data-table";
-import { SearchInput } from "./-components/search-form";
+import { SearchForm } from "./-components/search-form";
 import { useFetchFacilitators } from "./-hooks/use-fetch-facilitators";
 import { useFetchParams } from "./-hooks/use-fetch-params";
 
@@ -29,7 +29,7 @@ function RouteComponent() {
           <Icon name="teacher" className="w-8" />
           <span className="text-2xl font-bold">先生</span>
         </h2>
-        <SearchInput onSearch={onSearchParamsChange} />
+        <SearchForm onSearch={onSearchParamsChange} />
       </div>
 
       {isLoading || facilitators.length > 0 ? (
