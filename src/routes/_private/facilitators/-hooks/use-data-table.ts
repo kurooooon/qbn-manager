@@ -8,7 +8,7 @@ import {
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 interface UseDataTableProps {
   columns: ColumnDef<Facilitator>[];
@@ -50,10 +50,10 @@ export function useDataTable({
   pageButtonSize = 5,
   onSortingChange,
 }: UseDataTableProps) {
-  const initialPagination: PaginationState = {
+  const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize,
-  };
+  });
 
   const handleSortingChange = useCallback<OnChangeFn<SortingState>>(
     (updaterOrValue) => {
@@ -74,18 +74,19 @@ export function useDataTable({
     columns,
     state: {
       sorting,
-      pagination: initialPagination,
+      pagination,
     },
     manualSorting: true,
     manualPagination: false,
     onSortingChange: handleSortingChange,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     pageCount: Math.ceil(data.length / pageSize),
   });
 
   // テーブルから現在のページ情報を取得
-  const { pageSize: tablePageSize, pageIndex } = table.getState().pagination;
+  const { pageSize: tablePageSize, pageIndex } = pagination;
   const startIndex = pageIndex * tablePageSize;
   const endIndex = Math.min(startIndex + tablePageSize, totalItems);
   const pageCount = table.getPageCount();
@@ -124,6 +125,6 @@ export function useDataTable({
     startIndex,
     endIndex,
     pageNumbers,
-    pagination: table.getState().pagination,
+    pagination,
   };
 }

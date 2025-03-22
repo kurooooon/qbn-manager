@@ -8,6 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -118,7 +119,9 @@ export function DataTable({
           {columns.map((_, cellIndex) => (
             <TableCell key={`skeleton-cell-${cellIndex}`}>
               {cellIndex < columns.length - 1 && (
-                <div className="h-3.5 bg-gray-200 rounded animate-pulse"></div>
+                <Skeleton>
+                  <span className="invisible">loading</span>
+                </Skeleton>
               )}
             </TableCell>
           ))}
@@ -135,7 +138,7 @@ export function DataTable({
         ))}
       </TableRow>
     ));
-  }, [isLoading, pagination.pageSize, table]);
+  }, [isLoading, pagination, table]);
 
   return (
     <div>

@@ -1,7 +1,7 @@
 @theme {
   /* line-heightは100%に統一 */
   --text-sm--line-height: 100%;
-  --text-md--line-height: 100%;
+  --text-base--line-height: 100%;
   --text-2xl--line-height: 100%;
   --text-xs--line-height: 100%;
   --text-s--line-height: 100%;
