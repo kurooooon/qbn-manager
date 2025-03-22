@@ -10,7 +10,7 @@ const createFacilitators = (count: number): Facilitator[] => {
     generateFacilitator({
       id: i + 1,
       name: `講師講師講師講師講師講師講師講師講師講師講師講師 ${i + 1}`,
-      loginId: `teacher_${i + 1}`,
+      loginId: `teacher_${i + 1}_teacher_teacher_teacher`,
     })
   );
 };
