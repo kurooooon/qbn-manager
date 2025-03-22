@@ -33,7 +33,7 @@ function RouteComponent() {
           </div>
         </div>
       </header>
-      <main className="h-full pt-6">
+      <main className="h-full">
         <Outlet />
       </main>
     </>
