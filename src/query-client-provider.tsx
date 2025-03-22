@@ -6,7 +6,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useMemo } from "react";
 
 const shouldRetry = (failureCount: number) => {
-  if (failureCount > 2) {
+  // デフォルトでfailureCountが2以上の場合はリトライしない
+  if (failureCount >= 2) {
     return false;
   }
   return true;

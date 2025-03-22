@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
 import { createFileRoute } from "@tanstack/react-router";
 import { DataTable } from "./-components/data-table";
@@ -15,6 +17,7 @@ function RouteComponent() {
 
   const {
     data: facilitators = [],
+    refetch,
     isLoading,
     error,
   } = useFetchFacilitators(fetchParams);
@@ -43,6 +46,12 @@ function RouteComponent() {
           該当するデータはありません
         </p>
       )}
+
+      <Dialog
+        isOpen={!!error}
+        title="通信エラーが発生しました。"
+        primaryButton={<Button onClick={() => refetch()}>リトライ</Button>}
+      />
     </section>
   );
 }
