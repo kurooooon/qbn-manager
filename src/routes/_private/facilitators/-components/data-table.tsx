@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
   Pagination,
   PaginationContent,
@@ -14,14 +16,50 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { type Facilitator } from "@/models/facilitator";
 import {
+  type Column,
   type ColumnDef,
   flexRender,
   type SortingState,
 } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { useCallback, useMemo } from "react";
 import { useDataTable } from "../-hooks/use-data-table";
+
+// ソート用のカスタムボタンコンポーネント
+interface SortButtonProps {
+  children: React.ReactNode;
+  column: Column<Facilitator, unknown>;
+}
+
+function SortButton({ children, column }: SortButtonProps) {
+  const sorted = column.getIsSorted();
+  const toggleSorting = useCallback(() => {
+    column.toggleSorting(sorted === "asc");
+  }, [column, sorted]);
+
+  const iconClassName = useMemo(() => {
+    return cn(
+      "h-4 w-4",
+      sorted === "asc" ? "rotate-180" : "",
+      sorted ? "" : "opacity-30"
+    );
+  }, [sorted]);
+
+  return (
+    <Button
+      variant="ghost"
+      className="w-full h-full p-0 justify-between text-inverse text-xs font-bold [&:hover]:bg-transparent [&:hover]:text-inverse"
+      onClick={toggleSorting}
+    >
+      <span>{children}</span>
+      <span>
+        <Icon name="arrow-down" className={iconClassName} />
+      </span>
+    </Button>
+  );
+}
 
 interface DataTableProps {
   data: Facilitator[];
@@ -32,6 +70,27 @@ interface DataTableProps {
   onSortingChange: (sorting: SortingState) => void;
 }
 
+// カラム定義
+const columns: ColumnDef<Facilitator>[] = [
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return <SortButton column={column}>名前</SortButton>;
+    },
+  },
+  {
+    accessorKey: "loginId",
+    header: ({ column }) => {
+      return <SortButton column={column}>ログインID</SortButton>;
+    },
+  },
+  {
+    id: "dummy",
+    header: () => null,
+    cell: () => null,
+  },
+];
+
 export function DataTable({
   data = [],
   isLoading = false,
@@ -40,54 +99,6 @@ export function DataTable({
   pageButtonSize = 5,
   onSortingChange,
 }: DataTableProps) {
-  // カラム定義
-  const columns: ColumnDef<Facilitator>[] = [
-    {
-      accessorKey: "name",
-      header: ({ column }) => {
-        return (
-          <div
-            className="flex items-center cursor-pointer"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            名前
-            <span className="ml-1">
-              {column.getIsSorted() === "asc" ? (
-                <ChevronUp className="h-4 w-4" />
-              ) : column.getIsSorted() === "desc" ? (
-                <ChevronDown className="h-4 w-4" />
-              ) : (
-                <ChevronDown className="h-4 w-4 opacity-30" />
-              )}
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "loginId",
-      header: ({ column }) => {
-        return (
-          <div
-            className="flex items-center cursor-pointer"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            ログインID
-            <span className="ml-1">
-              {column.getIsSorted() === "asc" ? (
-                <ChevronUp className="h-4 w-4" />
-              ) : column.getIsSorted() === "desc" ? (
-                <ChevronDown className="h-4 w-4" />
-              ) : (
-                <ChevronDown className="h-4 w-4 opacity-30" />
-              )}
-            </span>
-          </div>
-        );
-      },
-    },
-  ];
-
   const { table, totalItems, startIndex, endIndex, pageNumbers, pagination } =
     useDataTable({
       columns,
@@ -99,65 +110,66 @@ export function DataTable({
       onSortingChange,
     });
 
+  const tableBody = useMemo(() => {
+    if (isLoading) {
+      // ローディング中はスケルトンを表示
+      return Array.from({ length: pagination.pageSize }).map((_, index) => (
+        <TableRow key={`skeleton-${index}`}>
+          {columns.map((_, cellIndex) => (
+            <TableCell key={`skeleton-cell-${cellIndex}`}>
+              {cellIndex < columns.length - 1 && (
+                <div className="h-3.5 bg-gray-200 rounded animate-pulse"></div>
+              )}
+            </TableCell>
+          ))}
+        </TableRow>
+      ));
+    }
+
+    return table.getRowModel().rows.map((row) => (
+      <TableRow key={row.id}>
+        {row.getVisibleCells().map((cell) => (
+          <TableCell key={cell.id}>
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          </TableCell>
+        ))}
+      </TableRow>
+    ));
+  }, [isLoading, pagination.pageSize, table]);
+
   return (
     <div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader className="bg-green-800 text-white">
+      <div className="overflow-x-auto">
+        <Table className="table-fixed w-full">
+          <colgroup>
+            <col className="w-[288px]" />
+            <col className="w-[288px]" />
+            <col />
+          </colgroup>
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-none hover:bg-green-800"
+                className="border-none hover:bg-inherit"
               >
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="text-white font-medium h-12"
+                    className={cn(
+                      "pl-4 pr-2",
+                      header.column.getIsSorted() ? "bg-background-primary" : ""
+                    )}
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
                   </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="min-h-[400px]">
-            {isLoading
-              ? Array.from({ length: pagination.pageSize }).map((_, index) => (
-                  <TableRow
-                    key={`skeleton-${index}`}
-                    className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-                  >
-                    {columns.map((_, cellIndex) => (
-                      <TableCell
-                        key={`skeleton-cell-${cellIndex}`}
-                        className="py-3"
-                      >
-                        <div className="h-5 bg-gray-200 rounded animate-pulse"></div>
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              : table.getRowModel().rows.map((row, index) => (
-                  <TableRow
-                    key={row.id}
-                    className={`hover:bg-gray-100 ${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="py-3">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-          </TableBody>
+          <TableBody className="min-h-[400px]">{tableBody}</TableBody>
         </Table>
       </div>
 
