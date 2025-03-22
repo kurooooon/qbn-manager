@@ -11,10 +11,12 @@ dev-storybook:
 lint:
 	npm run lint
 	npm run typecheck
+	npm run cspell
 
 fix:
 	npm run fix
 	npm run typecheck
+	npm run cspell
 
 test:
 	npm run test

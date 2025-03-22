@@ -1,0 +1,19 @@
+{
+  "version": "0.2",
+  "language": "en,ja",
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "*.lock",
+    "package-lock.json",
+    "public"
+  ],
+  "dictionaries": [],
+  "words": ["Qubena"],
+  "ignoreWords": [],
+  "includeRegExpList": [],
+  "allowCompoundWords": true,
+  "import": []
+}
