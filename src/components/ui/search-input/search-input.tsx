@@ -1,6 +1,6 @@
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { ComponentProps, forwardRef } from "react";
-import { Icon } from "./icon";
 
 type Props = ComponentProps<typeof Input>;
 

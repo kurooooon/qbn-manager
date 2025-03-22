@@ -1,11 +1,5 @@
 import clsx from "clsx";
-
-export const iconNames = [
-  "loupe",
-  "teacher",
-  "arrow-down",
-  "circle-person",
-] as const;
+import { iconNames } from "./icon-names";
 
 type Props = {
   name: (typeof iconNames)[number];

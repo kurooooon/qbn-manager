@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { VariantProps } from "class-variance-authority";
-import { Button, buttonVariants } from "./button";
+import { Button, buttonVariants } from ".";
 
 type ButtonVariantProps = VariantProps<typeof buttonVariants>;
 type ButtonVariants = NonNullable<ButtonVariantProps["variant"]>;

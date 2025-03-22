@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Fragment } from "react";
-import { Icon, iconNames } from "./icon";
+import { Icon } from "./icon";
+import { iconNames } from "./icon-names";
 
 const meta = {
   component: Fragment,

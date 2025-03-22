@@ -1,5 +1,3 @@
-import { PaginationState, RowData, Table } from "@tanstack/react-table";
-import { useMemo } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -7,7 +5,9 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../ui/pagination";
+} from "@/components/ui/pagination";
+import { PaginationState, RowData, Table } from "@tanstack/react-table";
+import { useMemo } from "react";
 
 type Props<T extends RowData> = {
   /**
