@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@import "../themes/text.css" layer(theme);
+
 :root {
   --token-primitive-neutral-white: #fff;
   --token-primitive-neutral-black: #212423;
