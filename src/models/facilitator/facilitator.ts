@@ -1,5 +1,5 @@
 export type Facilitator = {
-  id: string;
+  id: number;
   name: string;
   loginId: string;
 };

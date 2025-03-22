@@ -19,7 +19,7 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
-import { useDataTable } from "../-hooks/use-data-table";
+import { useDataTable } from "../../-hooks/use-data-table";
 
 // ソート用のカスタムボタンコンポーネント
 interface SortButtonProps {
