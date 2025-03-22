@@ -1,13 +1,6 @@
+import { TablePagination } from "@/components/app/table-pagination";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -100,16 +93,15 @@ export function DataTable({
   pageButtonSize = 5,
   onSortingChange,
 }: DataTableProps) {
-  const { table, totalItems, startIndex, endIndex, pageNumbers, pagination } =
-    useDataTable({
-      columns,
-      data,
-      sorting,
-      isLoading,
-      pageSize,
-      pageButtonSize,
-      onSortingChange,
-    });
+  const { table, totalItems, startIndex, endIndex, pagination } = useDataTable({
+    columns,
+    data,
+    sorting,
+    isLoading,
+    pageSize,
+    pageButtonSize,
+    onSortingChange,
+  });
 
   const tableBody = useMemo(() => {
     if (isLoading) {
@@ -181,42 +173,11 @@ export function DataTable({
           <p className="text-xs">
             {totalItems}件中 {startIndex + 1}～{endIndex}件を表示
           </p>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  aria-label="前のページへ"
-                  className={
-                    !table.getCanPreviousPage()
-                      ? "opacity-40 pointer-events-none"
-                      : ""
-                  }
-                  onClick={() => table.previousPage()}
-                />
-              </PaginationItem>
-              {pageNumbers.map((pageNumber) => (
-                <PaginationItem key={pageNumber}>
-                  <PaginationLink
-                    isActive={pageNumber - 1 === pagination.pageIndex}
-                    onClick={() => table.setPageIndex(pageNumber - 1)}
-                  >
-                    {pageNumber}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationNext
-                  aria-label="次のページへ"
-                  className={
-                    !table.getCanNextPage()
-                      ? "opacity-40 pointer-events-none"
-                      : ""
-                  }
-                  onClick={() => table.nextPage()}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <TablePagination
+            table={table}
+            pageButtonSize={pageButtonSize}
+            pagination={pagination}
+          />
         </div>
       )}
     </div>
