@@ -1,6 +1,6 @@
 import { SearchInput } from "@/components/ui/search-input";
+import { normalizeAlphaNumericText } from "@/utils/stringUtils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -23,20 +23,9 @@ export const SearchForm = ({ onSearch }: Props) => {
   });
   const { handleSubmit, setValue } = form;
 
-  // テキストを正規化する関数
-  const normalizeText = useCallback((text: string): string => {
-    if (!text) {
-      return "";
-    }
-    const trimmed = text.trim();
-    return trimmed.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
-      return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-    });
-  }, []);
-
   const onSubmit = (data: SearchFormData) => {
     // 入力値を正規化する
-    const normalized = normalizeText(data.searchText);
+    const normalized = normalizeAlphaNumericText(data.searchText);
     setValue("searchText", normalized);
     onSearch(normalized);
   };
