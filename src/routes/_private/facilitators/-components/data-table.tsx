@@ -14,19 +14,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type ColumnDef, flexRender } from "@tanstack/react-table";
+import { type Facilitator } from "@/models/facilitator";
+import {
+  type ColumnDef,
+  flexRender,
+  type SortingState,
+} from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useDataTable } from "../-hooks/use-data-table";
-import { type Facilitator } from "../-hooks/use-fetch-facilitators";
 
 interface DataTableProps {
+  data: Facilitator[];
+  isLoading: boolean;
+  sorting: SortingState;
   pageSize?: number;
   pageButtonSize?: number;
+  onSortingChange: (sorting: SortingState) => void;
 }
 
 export function DataTable({
+  data = [],
+  isLoading = false,
+  sorting,
   pageSize = 20,
-  pageButtonSize = 7,
+  pageButtonSize = 5,
+  onSortingChange,
 }: DataTableProps) {
   // カラム定義
   const columns: ColumnDef<Facilitator>[] = [
@@ -76,28 +88,19 @@ export function DataTable({
     },
   ];
 
-  const {
-    table,
-    isLoading,
-    error,
-    totalItems,
-    startIndex,
-    endIndex,
-    pageNumbers,
-    pagination,
-  } = useDataTable({
-    columns,
-    pageSize,
-    pageButtonSize,
-  });
+  const { table, totalItems, startIndex, endIndex, pageNumbers, pagination } =
+    useDataTable({
+      columns,
+      data,
+      sorting,
+      isLoading,
+      pageSize,
+      pageButtonSize,
+      onSortingChange,
+    });
 
   return (
     <div>
-      {error instanceof Error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error.message}
-        </div>
-      )}
       <div className="rounded-md border">
         <Table>
           <TableHeader className="bg-green-800 text-white">

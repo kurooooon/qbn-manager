@@ -1,18 +1,29 @@
+import { Facilitator } from "@/models/facilitator";
 import {
   type ColumnDef,
   getCoreRowModel,
+  getPaginationRowModel,
+  type OnChangeFn,
   type PaginationState,
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import {
-  type Facilitator,
-  useFetchFacilitators,
-} from "./use-fetch-facilitators";
+import { useCallback, useMemo } from "react";
 
 interface UseDataTableProps {
   columns: ColumnDef<Facilitator>[];
+  /**
+   * 表示するデータ
+   */
+  data: Facilitator[];
+  /**
+   * ソート状態
+   */
+  sorting: SortingState;
+  /**
+   * データ読み込み中かどうか
+   */
+  isLoading: boolean;
   /**
    * ページあたりの表示件数
    */
@@ -21,80 +32,98 @@ interface UseDataTableProps {
    * ページングの表示最大ボタン数
    */
   pageButtonSize?: number;
+  /**
+   * ソート変更時のコールバック
+   */
+  onSortingChange: (sorting: SortingState) => void;
 }
 
+/**
+ * データテーブルを管理するカスタムフック
+ */
 export function useDataTable({
   columns,
+  data,
+  sorting,
+  isLoading,
   pageSize = 20,
   pageButtonSize = 5,
+  onSortingChange,
 }: UseDataTableProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState<PaginationState>({
+  const initialPagination: PaginationState = {
     pageIndex: 0,
     pageSize,
-  });
+  };
 
-  // データ取得ロジックを別のフックから取得
-  const { data: items = [], isLoading, error } = useFetchFacilitators(sorting);
+  const handleSortingChange = useCallback<OnChangeFn<SortingState>>(
+    (updaterOrValue) => {
+      const newSorting =
+        typeof updaterOrValue === "function"
+          ? updaterOrValue(sorting)
+          : updaterOrValue;
 
-  const totalItems = items.length;
+      onSortingChange(newSorting);
+    },
+    [onSortingChange, sorting]
+  );
 
-  // 現在のページのデータ範囲を計算
-  const startIndex = pagination.pageIndex * pagination.pageSize;
-  const endIndex = Math.min(startIndex + pagination.pageSize, items.length);
-  const currentPageData = items.slice(startIndex, endIndex);
-  const pageCount = Math.ceil(items.length / pagination.pageSize);
-
-  /**
-   * ページネーションに表示するページ番号の配列
-   */
-  const pageNumbers = useMemo(() => {
-    const totalPages = Math.ceil(totalItems / pagination.pageSize);
-
-    // ページ数が少ない場合はすべて表示
-    if (totalPages <= pageButtonSize) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-
-    // 現在のページ (1ベース)
-    const currentPage = pagination.pageIndex + 1;
-
-    // 中央に配置するシンプルなアルゴリズム
-    let start = Math.max(1, currentPage - Math.floor(pageButtonSize / 2));
-    const end = Math.min(totalPages, start + pageButtonSize - 1);
-
-    // 右端に寄りすぎた場合は左にシフト
-    if (end === totalPages) {
-      start = Math.max(1, totalPages - pageButtonSize + 1);
-    }
-
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  }, [totalItems, pagination.pageSize, pagination.pageIndex, pageButtonSize]);
+  const totalItems = data.length;
 
   const table = useReactTable<Facilitator>({
-    data: currentPageData,
+    data,
     columns,
     state: {
       sorting,
-      pagination,
+      pagination: initialPagination,
     },
     manualSorting: true,
-    manualPagination: true,
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
+    manualPagination: false,
+    onSortingChange: handleSortingChange,
     getCoreRowModel: getCoreRowModel(),
-    pageCount,
+    getPaginationRowModel: getPaginationRowModel(),
+    pageCount: Math.ceil(data.length / pageSize),
   });
+
+  // テーブルから現在のページ情報を取得
+  const { pageSize: tablePageSize, pageIndex } = table.getState().pagination;
+  const startIndex = pageIndex * tablePageSize;
+  const endIndex = Math.min(startIndex + tablePageSize, totalItems);
+  const pageCount = table.getPageCount();
+
+  const pageNumbers = useMemo(() => {
+    // 表示するページボタンの数が全ページ数より多い場合は全ページを表示
+    if (pageCount <= pageButtonSize) {
+      return Array.from({ length: pageCount }, (_, i) => i + 1);
+    }
+
+    // 現在のページ (1ベース)
+    const currentPage = pageIndex + 1;
+
+    // ページボタンを中央に配置するためのオフセット計算
+    const halfButtons = Math.floor(pageButtonSize / 2);
+
+    // 開始ページと終了ページを計算
+    let startPage = Math.max(1, currentPage - halfButtons);
+    const endPage = Math.min(pageCount, startPage + pageButtonSize - 1);
+
+    // 終了ページが最大を超えないよう調整
+    if (endPage === pageCount) {
+      startPage = Math.max(1, pageCount - pageButtonSize + 1);
+    }
+
+    return Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i
+    );
+  }, [pageIndex, pageCount, pageButtonSize]);
 
   return {
     table,
     isLoading,
-    error,
     totalItems,
     startIndex,
     endIndex,
     pageNumbers,
-    pagination,
-    pageCount,
+    pagination: table.getState().pagination,
   };
 }
