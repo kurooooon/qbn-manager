@@ -4,6 +4,7 @@ import "./index.css";
 
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 
+import { QueryClientProvider } from "./query-client-provider";
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({ routeTree });
@@ -19,7 +20,9 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <QueryClientProvider>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </StrictMode>
   );
 }
