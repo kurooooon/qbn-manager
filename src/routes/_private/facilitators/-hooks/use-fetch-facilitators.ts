@@ -1,4 +1,5 @@
 import { Facilitator } from "@/models/facilitator";
+import { get } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 import { type SortingState } from "@tanstack/react-table";
 
@@ -10,29 +11,21 @@ export type FetchParams = {
 };
 
 async function fetchFacilitators(params: FetchParams): Promise<Facilitator[]> {
-  const urlParams = new URLSearchParams();
+  const apiParams: Record<string, string> = {};
 
   if (params.sorting.length > 0) {
     const sortField = params.sorting[0].id;
     const sortOrder = params.sorting[0].desc ? "desc" : "asc";
 
-    urlParams.append("_sort", sortField);
-    urlParams.append("_order", sortOrder);
+    apiParams._sort = sortField;
+    apiParams._order = sortOrder;
   }
 
   if (params.searchParams) {
-    urlParams.append(params.searchParams.key, params.searchParams.value);
+    apiParams[params.searchParams.key] = params.searchParams.value;
   }
 
-  const response = await fetch(
-    `https://us-central1-compass-hr.cloudfunctions.net/mock/facilitators?${urlParams.toString()}`
-  );
-
-  if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
-  }
-
-  return response.json();
+  return get<Facilitator[]>("/mock/facilitators", apiParams);
 }
 
 /**
