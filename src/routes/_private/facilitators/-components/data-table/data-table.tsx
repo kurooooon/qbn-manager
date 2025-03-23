@@ -17,6 +17,7 @@ import {
   type ColumnDef,
   flexRender,
   type SortingState,
+  Table as TanstackTable,
 } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
 import { useDataTable } from "../../-hooks/use-data-table";
@@ -103,35 +104,6 @@ export function DataTable({
     onSortingChange,
   });
 
-  const tableBody = useMemo(() => {
-    if (isLoading) {
-      // ローディング中はスケルトンを表示
-      return Array.from({ length: pagination.pageSize }).map((_, index) => (
-        <TableRow key={`skeleton-${index}`}>
-          {columns.map((_, cellIndex) => (
-            <TableCell key={`skeleton-cell-${cellIndex}`}>
-              {cellIndex < columns.length - 1 && (
-                <Skeleton>
-                  <span className="invisible">loading</span>
-                </Skeleton>
-              )}
-            </TableCell>
-          ))}
-        </TableRow>
-      ));
-    }
-
-    return table.getRowModel().rows.map((row) => (
-      <TableRow key={row.id}>
-        {row.getVisibleCells().map((cell) => (
-          <TableCell key={cell.id} className="truncate">
-            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-          </TableCell>
-        ))}
-      </TableRow>
-    ));
-  }, [isLoading, pagination, table]);
-
   return (
     <div>
       <div className="overflow-x-auto">
@@ -164,7 +136,13 @@ export function DataTable({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="min-h-[400px]">{tableBody}</TableBody>
+          <TableBody className="min-h-[400px]">
+            <TableRows
+              isLoading={isLoading}
+              table={table}
+              pageSize={pageSize}
+            />
+          </TableBody>
         </Table>
       </div>
 
@@ -183,3 +161,40 @@ export function DataTable({
     </div>
   );
 }
+
+type TableRowsProps = {
+  isLoading: boolean;
+  table: TanstackTable<Facilitator>;
+  pageSize: number;
+};
+
+const TableRows = ({ isLoading, table, pageSize }: TableRowsProps) => {
+  if (isLoading) {
+    // ローディング中はスケルトンを表示
+    return Array.from({ length: pageSize }).map((_, index) => (
+      <TableRow key={`skeleton-${index}`}>
+        {columns.map((_, cellIndex) => (
+          <TableCell key={`skeleton-cell-${cellIndex}`}>
+            {cellIndex < columns.length - 1 ? (
+              <Skeleton
+                style={{ width: `${Math.floor(60 + Math.random() * 40)}%` }}
+              >
+                <span className="invisible">loading</span>
+              </Skeleton>
+            ) : null}
+          </TableCell>
+        ))}
+      </TableRow>
+    ));
+  }
+
+  return table.getRowModel().rows.map((row) => (
+    <TableRow key={row.id}>
+      {row.getVisibleCells().map((cell) => (
+        <TableCell key={cell.id} className="truncate">
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </TableCell>
+      ))}
+    </TableRow>
+  ));
+};

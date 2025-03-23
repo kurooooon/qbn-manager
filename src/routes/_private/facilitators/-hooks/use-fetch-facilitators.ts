@@ -43,5 +43,6 @@ export function useFetchFacilitators(params: FetchParams) {
       searchParams?.value,
     ],
     queryFn: () => fetchFacilitators(params),
+    staleTime: 1000 * 60 * 2, // 2分: 更新性がそこまで高くないことを想定
   });
 }
