@@ -21,7 +21,7 @@ async function apiRequest<T>(
   options: RequestInit = {}
 ): Promise<T> {
   const queryString = qs.stringify(params || {});
-  const url = `${API_BASE_URL}${endpoint}${queryString}`;
+  const url = `${API_BASE_URL}${endpoint}${queryString ? `?${queryString}` : ""}`;
 
   const response = await fetch(url, {
     headers: {
