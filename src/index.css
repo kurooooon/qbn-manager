@@ -2,15 +2,9 @@
 @import "tw-animate-css";
 
 @import "../themes/text.css" layer(theme);
+@import "../themes/color.css" layer(theme);
 
 :root {
-  --token-primitive-neutral-white: #fff;
-  --token-primitive-neutral-black: #212423;
-  --token-primitive-green-500: #4f6c62;
-  --token-primitive-green-800: #24473b;
-  --token-primitive-gray-400: #e9eceb;
-  --token-primitive-gray-300: #f8f9f9;
-
   --radius: 0.625rem;
   --background: var(--token-primitive-neutral-white);
   --background-primary: var(--token-primitive-green-800);
@@ -30,8 +24,8 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #d3dad8;
-  --border-input: #a7b5b1;
+  --border: var(--token-primitive-green-100);
+  --border-input: var(--token-primitive-green-200);
   --input: var(--background);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);

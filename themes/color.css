@@ -1,0 +1,11 @@
+@theme {
+  /* primitiveなカラー定義（今回必要な色のみなので段階は適当） */
+  --token-primitive-neutral-white: oklch(1 0 0);
+  --token-primitive-neutral-black: oklch(0.2 0.01 162);
+  --token-primitive-green-100: oklch(0.87 0.03 147);
+  --token-primitive-green-200: oklch(0.73 0.05 147);
+  --token-primitive-green-500: oklch(0.44 0.06 155);
+  --token-primitive-green-800: oklch(0.3 0.06 155);
+  --token-primitive-gray-400: oklch(0.94 0.01 137);
+  --token-primitive-gray-300: oklch(0.98 0 0);
+}
