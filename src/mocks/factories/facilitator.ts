@@ -1,7 +1,7 @@
 import { type Facilitator } from "@/models/facilitator";
 
 export const generateFacilitator = (
-  args: Partial<Facilitator>
+  args?: Partial<Facilitator>
 ): Facilitator => {
   const facilitator: Facilitator = {
     id: 1,
