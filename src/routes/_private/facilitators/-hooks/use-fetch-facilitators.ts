@@ -10,7 +10,9 @@ export type FetchParams = {
     | { key: "loginId_like"; value: string };
 };
 
-async function fetchFacilitators(params: FetchParams): Promise<Facilitator[]> {
+export const fetchFacilitators = async (
+  params: FetchParams
+): Promise<Facilitator[]> => {
   const apiParams: Record<string, string> = {};
 
   if (params.sorting.length > 0) {
@@ -26,12 +28,12 @@ async function fetchFacilitators(params: FetchParams): Promise<Facilitator[]> {
   }
 
   return get<Facilitator[]>("/mock/facilitators", apiParams);
-}
+};
 
 /**
  * Facilitatorデータを取得するカスタムフック
  */
-export function useFetchFacilitators(params: FetchParams) {
+export const useFetchFacilitators = (params: FetchParams) => {
   const { sorting, searchParams } = params;
 
   return useQuery({
@@ -45,4 +47,4 @@ export function useFetchFacilitators(params: FetchParams) {
     queryFn: () => fetchFacilitators(params),
     staleTime: 1000 * 60 * 2, // 2分: 更新性がそこまで高くないことを想定
   });
-}
+};

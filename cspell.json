@@ -11,7 +11,10 @@
     "public"
   ],
   "dictionaries": [],
-  "words": ["Qubena"],
+  "words": [
+    "Qubena",
+    "shadcn"
+  ],
   "ignoreWords": [],
   "includeRegExpList": [],
   "allowCompoundWords": true,

@@ -15,11 +15,11 @@ const API_BASE_URL =
  * @param options fetchオプション
  * @returns APIレスポンス
  */
-async function apiRequest<T>(
+export const apiRequest = async <T>(
   endpoint: string,
   params?: Record<string, string | number | boolean | undefined>,
   options: RequestInit = {}
-): Promise<T> {
+): Promise<T> => {
   const queryString = qs.stringify(params || {});
   const url = `${API_BASE_URL}${endpoint}${queryString ? `?${queryString}` : ""}`;
 
@@ -37,7 +37,7 @@ async function apiRequest<T>(
   }
 
   return response.json();
-}
+};
 
 /**
  * GET リクエストを実行
@@ -45,9 +45,9 @@ async function apiRequest<T>(
  * @param params URLパラメータ
  * @returns APIレスポンス
  */
-export function get<T>(
+export const get = async <T>(
   endpoint: string,
   params?: Record<string, string | number | boolean | undefined>
-): Promise<T> {
+): Promise<T> => {
   return apiRequest<T>(endpoint, params, { method: "GET" });
-}
+};

@@ -23,12 +23,12 @@ import { useCallback, useMemo } from "react";
 import { useDataTable } from "../../-hooks/use-data-table";
 
 // ソート用のカスタムボタンコンポーネント
-interface SortButtonProps {
+type SortButtonProps = {
   children: React.ReactNode;
   column: Column<Facilitator, unknown>;
-}
+};
 
-function SortButton({ children, column }: SortButtonProps) {
+const SortButton = ({ children, column }: SortButtonProps) => {
   const sorted = column.getIsSorted();
   const toggleSorting = useCallback(() => {
     column.toggleSorting(sorted === "asc");
@@ -54,16 +54,16 @@ function SortButton({ children, column }: SortButtonProps) {
       </span>
     </Button>
   );
-}
+};
 
-interface DataTableProps {
+type DataTableProps = {
   data: Facilitator[];
   isLoading: boolean;
   sorting: SortingState;
   pageSize?: number;
   pageButtonSize?: number;
   onSortingChange: (sorting: SortingState) => void;
-}
+};
 
 // カラム定義
 const columns: ColumnDef<Facilitator>[] = [
@@ -86,14 +86,14 @@ const columns: ColumnDef<Facilitator>[] = [
   },
 ];
 
-export function DataTable({
+export const DataTable = ({
   data = [],
   isLoading = false,
   sorting,
   pageSize = 20,
   pageButtonSize = 5,
   onSortingChange,
-}: DataTableProps) {
+}: DataTableProps) => {
   const { table, totalItems, startIndex, endIndex, pagination } = useDataTable({
     columns,
     data,
@@ -160,7 +160,7 @@ export function DataTable({
       )}
     </div>
   );
-}
+};
 
 type TableRowsProps = {
   isLoading: boolean;

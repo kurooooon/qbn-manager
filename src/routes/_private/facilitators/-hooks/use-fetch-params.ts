@@ -6,7 +6,7 @@ import { type FetchParams } from "./use-fetch-facilitators";
 /**
  * 検索パラメータを管理するカスタムフック
  */
-export function useFetchParams() {
+export const useFetchParams = () => {
   const [fetchParams, setFetchParams] = useState<FetchParams>({
     sorting: [],
     searchParams: undefined,
@@ -55,4 +55,4 @@ export function useFetchParams() {
     onSearchParamsChange,
     onSortingChange,
   };
-}
+};

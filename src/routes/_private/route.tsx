@@ -4,14 +4,10 @@ import logo3x from "@/assets/images/logo-white@3x.png";
 import { Icon } from "@/components/ui/icon";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_private")({
-  component: RouteComponent,
-});
-
 /**
  * 認証済みのユーザーのみがアクセスできるルート
  */
-function RouteComponent() {
+const RouteComponent = () => {
   // TODO: implement auth check
   return (
     <>
@@ -38,4 +34,8 @@ function RouteComponent() {
       </main>
     </>
   );
-}
+};
+
+export const Route = createFileRoute("/_private")({
+  component: RouteComponent,
+});

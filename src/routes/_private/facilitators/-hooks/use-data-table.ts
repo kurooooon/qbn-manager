@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
 
-interface UseDataTableProps {
+type UseDataTableProps = {
   columns: ColumnDef<Facilitator>[];
   /**
    * 表示するデータ
@@ -36,19 +36,19 @@ interface UseDataTableProps {
    * ソート変更時のコールバック
    */
   onSortingChange: (sorting: SortingState) => void;
-}
+};
 
 /**
  * データテーブルを管理するカスタムフック
  */
-export function useDataTable({
+export const useDataTable = ({
   columns,
   data,
   sorting,
   isLoading,
   pageSize = 20,
   onSortingChange,
-}: UseDataTableProps) {
+}: UseDataTableProps) => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize,
@@ -97,4 +97,4 @@ export function useDataTable({
     endIndex,
     pagination,
   };
-}
+};
