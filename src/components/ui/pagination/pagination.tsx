@@ -1,12 +1,9 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MoreHorizontalIcon,
-} from "lucide-react";
+import { MoreHorizontalIcon } from "lucide-react";
 import * as React from "react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Icon } from "../icon";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -78,7 +75,7 @@ function PaginationPrevious({
       className={cn("w-10", className)}
       {...props}
     >
-      <ChevronLeftIcon />
+      <Icon name="arrow-down" className="size-4 rotate-90" />
       <span className="hidden">Previous</span>
     </PaginationLink>
   );
@@ -96,7 +93,7 @@ function PaginationNext({
       {...props}
     >
       <span className="hidden">Next</span>
-      <ChevronRightIcon />
+      <Icon name="arrow-down" className="size-4 rotate-270" />
     </PaginationLink>
   );
 }
