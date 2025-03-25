@@ -8,6 +8,12 @@ dev:
 dev-storybook:
 	npm run storybook
 
+build:
+	npm run build
+
+preview:
+	npm run preview
+
 lint:
 	npm run lint
 	npm run typecheck
