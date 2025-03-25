@@ -1,4 +1,4 @@
-import { generateFacilitator } from "@/mocks/factories/facilitator";
+import { generateFacilitator } from "@/mocks/factories/facilitatorFactory";
 import { type Facilitator } from "@/models/facilitator";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";

@@ -1,4 +1,4 @@
-import { generateFacilitator } from "@/mocks/factories/facilitator";
+import { generateFacilitator } from "@/mocks/factories/facilitatorFactory";
 import { facilitatorsGetHandler } from "@/mocks/msw/handlers/facilitatorsHandler";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect, waitFor, within } from "@storybook/test";
