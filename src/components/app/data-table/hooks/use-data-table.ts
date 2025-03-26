@@ -1,21 +1,21 @@
-import { Facilitator } from "@/models/facilitator";
 import {
   type ColumnDef,
   getCoreRowModel,
   getPaginationRowModel,
   type OnChangeFn,
   type PaginationState,
+  RowData,
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
 
-type UseDataTableProps = {
-  columns: ColumnDef<Facilitator>[];
+type Props<T extends RowData> = {
+  columns: ColumnDef<T>[];
   /**
    * 表示するデータ
    */
-  data: Facilitator[];
+  data: T[];
   /**
    * ソート状態
    */
@@ -41,14 +41,14 @@ type UseDataTableProps = {
 /**
  * データテーブルを管理するカスタムフック
  */
-export const useDataTable = ({
+export const useDataTable = <T>({
   columns,
   data,
   sorting,
   isLoading,
   pageSize = 20,
   onSortingChange,
-}: UseDataTableProps) => {
+}: Props<T>) => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize,
@@ -68,7 +68,7 @@ export const useDataTable = ({
 
   const totalItems = data.length;
 
-  const table = useReactTable<Facilitator>({
+  const table = useReactTable<T>({
     data,
     columns,
     state: {

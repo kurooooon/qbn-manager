@@ -1,9 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
+import { Facilitator } from "@/models/facilitator";
+import { ColumnDef } from "@tanstack/react-table";
+import { useMemo } from "react";
 import { useFetchFacilitators } from "../../-hooks/use-fetch-facilitators";
 import { useFetchParams } from "../../-hooks/use-fetch-params";
-import { DataTable } from "../data-table";
+import {
+  DataTable,
+  DataTableSortButton,
+} from "../../../../../components/app/data-table";
 import { SearchForm } from "../search-form";
 
 export const FacilitatorsContent = () => {
@@ -16,6 +22,35 @@ export const FacilitatorsContent = () => {
     isLoading,
     error,
   } = useFetchFacilitators(fetchParams);
+
+  const columns: ColumnDef<Facilitator>[] = useMemo(
+    () => [
+      {
+        accessorKey: "name",
+        header: ({ column }) => {
+          return (
+            <DataTableSortButton column={column}>名前</DataTableSortButton>
+          );
+        },
+      },
+      {
+        accessorKey: "loginId",
+        header: ({ column }) => {
+          return (
+            <DataTableSortButton column={column}>
+              ログインID
+            </DataTableSortButton>
+          );
+        },
+      },
+      {
+        id: "dummy",
+        header: () => null,
+        cell: () => null,
+      },
+    ],
+    []
+  );
 
   return (
     <section className="max-w-[800px] mx-auto px-6 pt-6 pb-16">
@@ -31,6 +66,7 @@ export const FacilitatorsContent = () => {
         <div className="mt-6">
           <DataTable
             data={facilitators}
+            columns={columns}
             isLoading={isLoading}
             sorting={fetchParams.sorting}
             onSortingChange={onSortingChange}

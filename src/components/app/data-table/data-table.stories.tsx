@@ -2,7 +2,7 @@ import { generateFacilitator } from "@/mocks/factories/facilitatorFactory";
 import { type Facilitator } from "@/models/facilitator";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { DataTable } from ".";
+import { DataTable, DataTableSortButton } from ".";
 
 // サンプルデータの作成
 const createFacilitators = (count: number): Facilitator[] => {
@@ -28,6 +28,31 @@ const meta = {
     ),
   ],
   args: {
+    columns: [
+      {
+        accessorKey: "name",
+        header: ({ column }) => {
+          return (
+            <DataTableSortButton column={column}>名前</DataTableSortButton>
+          );
+        },
+      },
+      {
+        accessorKey: "loginId",
+        header: ({ column }) => {
+          return (
+            <DataTableSortButton column={column}>
+              ログインID
+            </DataTableSortButton>
+          );
+        },
+      },
+      {
+        id: "dummy",
+        header: () => null,
+        cell: () => null,
+      },
+    ],
     onSortingChange: fn(),
   },
 } satisfies Meta<typeof DataTable>;

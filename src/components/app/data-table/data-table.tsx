@@ -1,6 +1,4 @@
 import { TablePagination } from "@/components/app/table-pagination";
-import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -11,53 +9,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { type Facilitator } from "@/models/facilitator";
 import {
-  type Column,
   type ColumnDef,
   flexRender,
+  RowData,
   type SortingState,
-  Table as TanstackTable,
+  type Table as TanstackTable,
 } from "@tanstack/react-table";
-import { useCallback, useMemo } from "react";
-import { useDataTable } from "../../-hooks/use-data-table";
+import { useDataTable } from "./hooks/use-data-table";
 
-// ソート用のカスタムボタンコンポーネント
-type SortButtonProps = {
-  children: React.ReactNode;
-  column: Column<Facilitator, unknown>;
-};
-
-const SortButton = ({ children, column }: SortButtonProps) => {
-  const sorted = column.getIsSorted();
-  const toggleSorting = useCallback(() => {
-    column.toggleSorting(sorted === "asc");
-  }, [column, sorted]);
-
-  const iconClassName = useMemo(() => {
-    return cn(
-      "h-4 w-4",
-      sorted === "asc" ? "rotate-180" : "",
-      sorted ? "" : "opacity-30"
-    );
-  }, [sorted]);
-
-  return (
-    <Button
-      variant="ghost"
-      className="w-full h-full p-0 justify-between text-inverse text-xs font-bold [&:hover]:bg-transparent [&:hover]:text-inverse"
-      onClick={toggleSorting}
-    >
-      <span>{children}</span>
-      <span>
-        <Icon name="arrow-down" className={iconClassName} />
-      </span>
-    </Button>
-  );
-};
-
-type DataTableProps = {
-  data: Facilitator[];
+type Props<T extends RowData> = {
+  data: T[];
+  columns: ColumnDef<T>[];
   isLoading: boolean;
   sorting: SortingState;
   pageSize?: number;
@@ -65,35 +28,15 @@ type DataTableProps = {
   onSortingChange: (sorting: SortingState) => void;
 };
 
-// カラム定義
-const columns: ColumnDef<Facilitator>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return <SortButton column={column}>名前</SortButton>;
-    },
-  },
-  {
-    accessorKey: "loginId",
-    header: ({ column }) => {
-      return <SortButton column={column}>ログインID</SortButton>;
-    },
-  },
-  {
-    id: "dummy",
-    header: () => null,
-    cell: () => null,
-  },
-];
-
-export const DataTable = ({
+export function DataTable<T>({
   data = [],
+  columns,
   isLoading = false,
   sorting,
   pageSize = 20,
   pageButtonSize = 5,
   onSortingChange,
-}: DataTableProps) => {
+}: Props<T>) {
   const { table, totalItems, startIndex, endIndex, pagination } = useDataTable({
     columns,
     data,
@@ -141,6 +84,7 @@ export const DataTable = ({
               isLoading={isLoading}
               table={table}
               pageSize={pageSize}
+              columns={columns}
             />
           </TableBody>
         </Table>
@@ -160,15 +104,21 @@ export const DataTable = ({
       )}
     </div>
   );
-};
+}
 
-type TableRowsProps = {
+type TableRowsProps<T extends RowData> = {
   isLoading: boolean;
-  table: TanstackTable<Facilitator>;
+  table: TanstackTable<T>;
   pageSize: number;
+  columns: ColumnDef<T>[];
 };
 
-const TableRows = ({ isLoading, table, pageSize }: TableRowsProps) => {
+function TableRows<T>({
+  isLoading,
+  table,
+  pageSize,
+  columns,
+}: TableRowsProps<T>) {
   if (isLoading) {
     // ローディング中はスケルトンを表示
     return Array.from({ length: pageSize }).map((_, index) => (
@@ -197,4 +147,4 @@ const TableRows = ({ isLoading, table, pageSize }: TableRowsProps) => {
       ))}
     </TableRow>
   ));
-};
+}
